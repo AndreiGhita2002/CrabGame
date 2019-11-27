@@ -16,4 +16,25 @@ public class SoundPlayer {
         //TODO changes the background music track
     }
 
+    /*
+    scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:     break;
+                case DOWN:   break;
+                case LEFT:   break;
+                case RIGHT:  break;
+                case SHIFT:  break;
+            }
+        });
+
+        scene.setOnKeyReleased(event -> {
+            switch (event.getCode()) {
+                case UP:     break;
+                case DOWN:   break;
+                case LEFT:   break;
+                case RIGHT:  break;
+                case SHIFT:  break;
+            }
+        });
+    */
 }
