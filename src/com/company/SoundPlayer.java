@@ -6,9 +6,9 @@ import java.io.File;
 
 public class SoundPlayer {
 
+    //Play abracadabra.wav test sound
     static void playSoundTest (String fileName) {
         Media m = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/" + "resources" + "/" + "sfx" + "/" + fileName);
-        //Media m = new Media("resources\\sfx\\" + fileName);
         MediaPlayer player = new MediaPlayer(m);
         player.play();
     }
@@ -20,6 +20,8 @@ public class SoundPlayer {
     void triggerChangeMusic(String musicName) {
         //TODO changes the background music track
     }
+
+    //TODO play sound when player moves
 
     /*
     scene.setOnKeyPressed(event -> {
