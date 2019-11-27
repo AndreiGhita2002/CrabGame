@@ -10,6 +10,7 @@ class Entity extends ImageView {
     Integer X;
     Integer Y;
 
+    //this should be used
     Double collisionBoxHeight = 1.0;  // in Sizes of tiles
     Double collisionBoxWidth  = 1.0;  // this * AMP
 
@@ -17,6 +18,8 @@ class Entity extends ImageView {
 
     void refresh() {
         relocate(X, Y);
+
+        //TODO animation
     }
 
     Entity(Image sprite) {

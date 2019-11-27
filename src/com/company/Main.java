@@ -26,12 +26,16 @@ public class Main extends Application {
 
     private static Entity hero;
 
+    private static SoundPlayer soundPlayer;
+
     private static boolean running, goNorth, goSouth, goEast, goWest;
 
     @Override
     public void start(Stage stage) {
         currentRoom = new Room(10, 10, "resources/tilemap.txt");
         hero = new Entity("file:resources/small_hero.png");
+
+        soundPlayer = new SoundPlayer();
 
         hero.X = W / 2;
         hero.Y = H / 2;
@@ -47,6 +51,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         render(gc);
+
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
@@ -89,19 +94,25 @@ public class Main extends Application {
         if (goSouth) dy -= zoomFactor;
         if (goEast)  dx -= zoomFactor;
         if (goWest)  dx += zoomFactor;
-        if (running) { dx *= 3 * zoomFactor; dy *= 3 * zoomFactor; }
+        if (running) { dx *= 3; dy *= 3; }
 
-        //TODO make collisions
+        Integer topDestTileX = (hero.X - dx) / tileWidth;
+        Integer topDestTileY = (hero.Y - dy) / tileHeight;
 
-        Integer destTileX = (hero.X - dx) / tileWidth;
-        Integer destTileY = (hero.Y - dy) / tileHeight;
+        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1) / tileWidth;
+        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1) / tileHeight;
 
-        if (!currentRoom.getTile(destTileX, destTileY).solid) {
+        if (!currentRoom.getTile(topDestTileX, topDestTileY).solid
+                && !currentRoom.getTile(topDestTileX, bottomDestTileY).solid
+                && !currentRoom.getTile(bottomDestTileX, topDestTileY).solid
+                && !currentRoom.getTile(bottomDestTileX, bottomDestTileY).solid) {
             hero.X -= dx;
             hero.Y -= dy;
         }
 
         hero.refresh();
+
+//        soundPlayer.playSoundTest("abracadabra.wav");
 
 //        System.out.print(destTileX);
 //        System.out.print(" ");
