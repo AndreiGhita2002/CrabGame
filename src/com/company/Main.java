@@ -11,11 +11,8 @@ import javafx.scene.*;
 
 public class Main extends Application {
 
-
-    // e p i c lorem ipsum
-
-
-    private static final int W = 600, H = 600;  // TODO add window resizing
+    // TODO add window resizing
+    private static final int W = 600, H = 600;
     private static final int tileWidthPx  = 32; // tile width in px
     private static final int tileHeightPx = 32; // tile height in px
     private static final int zoomFactor = 2;
@@ -35,6 +32,9 @@ public class Main extends Application {
     public void start(Stage stage) {
         currentRoom = new Room(10, 10, "resources/tilemap.txt");
         hero = new Entity("file:resources/small_hero.png");
+
+        hero.X = W / 2;
+        hero.Y = H / 2;
 
         resetCamera();
 
@@ -82,48 +82,29 @@ public class Main extends Application {
     private static void movementInput() {
         int dx = 0, dy = 0;
 
-        if (goNorth) dy -= zoomFactor;
-        if (goSouth) dy += zoomFactor;
-        if (goEast)  dx += zoomFactor;
-        if (goWest)  dx -= zoomFactor;
+        if (goNorth) dy += zoomFactor;
+        if (goSouth) dy -= zoomFactor;
+        if (goEast)  dx -= zoomFactor;
+        if (goWest)  dx += zoomFactor;
         if (running) { dx *= 3 * zoomFactor; dy *= 3 * zoomFactor; }
 
-        //TODO move char movement here
-        //TODO maybe decide on a view type - not follow would be easier and maybe add the other one later
+        //TODO make collisions
 
-        Integer destX = hero.X - dx;
-        Integer destY = hero.Y - dy;
+        Integer destTileX = (hero.X - dx) / tileWidth;
+        Integer destTileY = (hero.Y - dy) / tileHeight;
 
-//        Integer destTileX =
-
-//        moveHeroBy(dx, dy);
-        moveCamera();
-    }
-
-    private static void moveHeroBy(int dx, int dy) {
-
-        //TODO change this to move view
-
-
-        Integer TposX = cameraX - dx;
-        Integer TposY = cameraY - dy;
-
-        //TODO add collision - atm they work really weird and should be PURGED
-
-        Integer destTileX = TposX / tileWidth;
-        Integer destTileY = TposY / tileHeight;
-
-//        if (currentRoom.getTile(destTileX, destTileY).solid) {
-//            if (followHero) {
-//                cameraX = TposX;
-//                cameraY = TposY;
-//            } else {
-//                hero.X -= TposX;
-//                hero.Y -= TposY;
-//            }
-//        }
+        if (!currentRoom.getTile(destTileX, destTileY).solid) {
+            hero.X -= dx;
+            hero.Y -= dy;
+        }
 
         hero.refresh();
+
+//        System.out.print(destTileX);
+//        System.out.print(" ");
+//        System.out.println(destTileY);
+
+        moveCamera();
     }
 
     private static void moveCamera() {
@@ -156,8 +137,8 @@ public class Main extends Application {
     }
 
     private static void resetCamera() {
-        hero.X = W / 2;
-        hero.Y = W / 2;
+//        hero.X = W / 2;
+//        hero.Y = W / 2;
         cameraX = 0;
         cameraY = 0;
     }
