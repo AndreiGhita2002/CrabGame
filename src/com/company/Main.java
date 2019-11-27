@@ -48,6 +48,9 @@ public class Main extends Application {
         stage.show();
         render(gc);
 
+        //Test soundPlayer
+        //SoundPlayer.playSoundTest("abracadabra.wav");
+
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:    goNorth = true; break;
