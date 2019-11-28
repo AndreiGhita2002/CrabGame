@@ -73,6 +73,8 @@ public class Main extends Application {
                 case LEFT:  goWest  = false; break;
                 case RIGHT: goEast  = false; break;
                 case SHIFT: running = false; break;
+                case S: soundPlayer.playSound("abracadabra.wav"); break;
+                case D: soundPlayer.playSoundTest(); break;
             }
         });
 

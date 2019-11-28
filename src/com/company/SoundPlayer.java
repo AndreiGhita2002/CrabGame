@@ -3,25 +3,33 @@ package com.company;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class SoundPlayer {
+import java.io.IOException;
 
+class SoundPlayer {
     //Play abracadabra.wav test sound
-    void playSoundTest (String fileName) {
-        Media m = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/resources/sfx/" + fileName);
-
-        MediaPlayer player = new MediaPlayer(m);
-
-//        System.out.println("played " + fileName);
-
-        player.play();
-
-
-
-        //TODO this method shouldn't be different from playSound
-        // also no statics are needed here (in most cases you don't need them)
+    void playSoundTest () {
+            try {
+                Media m = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/resources/sfx/" + "abracadabra.wav");
+                MediaPlayer player = new MediaPlayer(m);
+                player.play();
+                System.out.println("Played test sound abracadabra.wav");
+            } catch (Exception IOException) {
+                System.out.println("Error: abracadabra.wav failed to play");
+            }
+            //TODO this method shouldn't be different from playSound
     }
 
+    //Play a sound
     void playSound(String soundName) {
+        try {
+            Media m = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/resources/sfx/" + soundName);
+            MediaPlayer player = new MediaPlayer(m);
+            player.play();
+            System.out.println("Played file " + soundName);
+        } catch (Exception IOException) {
+            System.out.println("Error: Media failed to play");
+        }
+        //TODO this method shouldn't be different from playSound
         //TODO plays a sound
         // ^^ the soundName should be the same as the file
         // example: soundName = "move_grass" should play the file move_grass.mov
