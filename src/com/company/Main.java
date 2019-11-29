@@ -74,7 +74,9 @@ public class Main extends Application {
                 case RIGHT: goEast  = false; break;
                 case SHIFT: running = false; break;
                 case S: soundPlayer.playSound("abracadabra.wav"); break;
+                case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
                 case D: soundPlayer.playSoundTest(); break;
+                case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
             }
         });
 

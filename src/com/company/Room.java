@@ -93,8 +93,6 @@ class Room {
         // init list list
         tileMap = new ArrayList<>();
 
-        //TODO add a boundary
-
         for (int i = 0; i < sizeY; i++) {
             tileMap.add(new ArrayList<>());
 
