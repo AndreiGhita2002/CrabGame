@@ -7,22 +7,17 @@ class Tile {
 
     Effect stepOnEffect;
 
-    Tile(Integer id, Boolean solid) {
+    Tile(Integer id, Boolean solid, Effect effect) {
         this.id = id;
         this.solid = solid;
-
-        if (solid) {
-            stepOnEffect = new Effect('I');
-        } else {
-            stepOnEffect = new Effect();
-        }
+        this.stepOnEffect = effect;
     }
 
-    Tile(Integer id) {
-        this(id, false);
+    Tile(Integer id, Boolean solid) {
+        this(id, solid, new Effect());
     }
 
     Tile() {
-        this(0, false);
+        this(0, false, new Effect());
     }
 }

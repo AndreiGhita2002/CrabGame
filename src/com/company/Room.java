@@ -16,6 +16,9 @@ class Room {
 
     Image tileSet;
 
+    Integer startTileX;
+    Integer startTileY;
+
     private List<List<Tile>> tileMap;
 
     Integer sizeX;
@@ -67,8 +70,27 @@ class Room {
                 }
             }
 
+            do {
+                str = reader.readLine();
+            } while (!str.equals("e"));
+
+            str = reader.readLine();
+            String[] input = str.split(" ");
+
+            startTileX = Integer.parseInt(input[0]);
+            startTileY = Integer.parseInt(input[1]);
+
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+
+        if (startTileX == null) {
+            startTileX = 5;
+            System.out.println("something strangeX in " + name + ".getMapFromText()");
+        }
+        if (startTileY == null) {
+            startTileY = 5;
+            System.out.println("something strangeY in " + name + ".getMapFromText()");
         }
     }
 

@@ -22,6 +22,11 @@ class Entity extends ImageView {
         //TODO animation
     }
 
+    void processEffect(Effect effect) {
+        // T O D O at some point in the far future
+        // only god knows what
+    }
+
     Entity(Image sprite) {
         spriteImage = sprite;
     }

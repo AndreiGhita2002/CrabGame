@@ -79,8 +79,8 @@ public class Main extends Application {
                 case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
                 case D: soundPlayer.playSoundTest(); break;
                 case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
-                case T: /* go to room start*/ break;
-                case Y: /* go to room room2*/ break;
+                case T: changeRoom("start"); break;   // for debug
+                case Y: changeRoom("room2"); break;   // changes the room
             }
         });
 
@@ -88,11 +88,22 @@ public class Main extends Application {
             @Override
             public void handle(long now) {
                 movementInput();
-
+                groundEffectPass(hero);
                 render(gc);
             }
         };
         timer.start();
+    }
+
+    private static void changeRoom(String newRoomName) {
+        dungeon.currentRoomName = newRoomName;
+
+        hero.X = dungeon.getCurrentRoom().startTileX * tileWidth;
+        hero.Y = dungeon.getCurrentRoom().startTileX * tileHeight;
+
+        hero.refresh();
+
+        moveCamera();
     }
 
     private static void movementInput() {
@@ -120,13 +131,32 @@ public class Main extends Application {
 
         hero.refresh();
 
-//        soundPlayer.playSoundTest("abracadabra.wav");
-
-//        System.out.print(destTileX);
-//        System.out.print(" ");
-//        System.out.println(destTileY);
-
         moveCamera();
+    }
+
+    private static void groundEffectPass(Entity entity) {
+        Integer entityTileX = entity.X / tileWidth;
+        Integer entityTileY = entity.Y / tileHeight;
+
+        Effect groundEffect = dungeon.getCurrentRoom().getTileEffect(entityTileX, entityTileY);
+
+        processEffect(entity, groundEffect);
+    }
+
+    private static void processEffect(Entity entity, Effect effect) {
+        switch (effect.type) {
+            case ROOM_CHANGE:
+                changeRoom(effect.effectText);
+                break;
+            case COORD_CHANGE:
+                String[] coords = effect.effectText.split(" ");
+                entity.X = Integer.parseInt(coords[0]);
+                entity.Y = Integer.parseInt(coords[1]);
+                break;
+            case STATE_CHANGE:
+                entity.processEffect(effect);
+                break;
+        }
     }
 
     private static void moveCamera() {

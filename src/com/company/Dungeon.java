@@ -22,11 +22,6 @@ class Dungeon {
 
     }
 
-    void checkRoomchange() {
-        //TODO room change detect thing
-
-    }
-
     Room getCurrentRoom() {
         return getRoom(currentRoomName);
 
@@ -62,6 +57,6 @@ class Dungeon {
     Dungeon() {
         testInit();
 
-//        readFiles();
+        readFiles();
     }
 }
