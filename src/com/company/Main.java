@@ -22,6 +22,8 @@ public class Main extends Application {
     private static Integer cameraX;
     private static Integer cameraY;
 
+    private static Dungeon dungeon;
+
     private static Room currentRoom;
 
     private static Entity hero;
@@ -32,7 +34,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        currentRoom = new Room(10, 10, "resources/tilemap.txt");
+        currentRoom = new Room(10, 10, "resources/map_room1.txt");
         hero = new Entity("file:resources/small_hero.png");
 
         soundPlayer = new SoundPlayer();

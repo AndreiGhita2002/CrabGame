@@ -11,6 +11,9 @@ import java.util.List;
 
 class Room {
 
+    List<String> adjacentRooms = new ArrayList<>();
+    String name;
+
     Image tileSet;
 
     private List<List<Tile>> tileMap;
