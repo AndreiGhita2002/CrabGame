@@ -21,6 +21,11 @@ class Room {
     Integer sizeX;
     Integer sizeY;
 
+    void addAdjacentRoom(Room room) {
+        adjacentRooms.add(room.name);
+
+    }
+
     private void getTileSetImage() {
         tileSet = new Image("file:resources/tileset.png");
 
@@ -86,9 +91,12 @@ class Room {
 
     Effect getTileEffect(Integer x, Integer y) {
         return getTile(x, y).stepOnEffect;
+
     }
 
-    Room(Integer setSizeX, Integer setSizeY, String path) {
+    Room(Integer setSizeX, Integer setSizeY, String name, String path) {
+
+        this.name = name;
 
         sizeX = setSizeX + 2;
         sizeY = setSizeY + 2;

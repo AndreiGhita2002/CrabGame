@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /* Sprite Entity
- * is used for: Characters, and interactive things
+ * is used for: Characters and interactive things
  */
 class Entity extends ImageView {
     Integer X;

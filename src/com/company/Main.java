@@ -24,8 +24,6 @@ public class Main extends Application {
 
     private static Dungeon dungeon;
 
-    private static Room currentRoom;
-
     private static Entity hero;
 
     private static SoundPlayer soundPlayer;
@@ -34,7 +32,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        currentRoom = new Room(10, 10, "resources/map_room1.txt");
+
+        dungeon = new Dungeon();
+
         hero = new Entity("file:resources/small_hero.png");
 
         soundPlayer = new SoundPlayer();
@@ -79,6 +79,8 @@ public class Main extends Application {
                 case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
                 case D: soundPlayer.playSoundTest(); break;
                 case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
+                case T: /* go to room start*/ break;
+                case Y: /* go to room room2*/ break;
             }
         });
 
@@ -108,10 +110,10 @@ public class Main extends Application {
         Integer bottomDestTileX = (hero.X - dx + tileWidth - 1) / tileWidth;
         Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1) / tileHeight;
 
-        if (!currentRoom.getTile(topDestTileX, topDestTileY).solid
-                && !currentRoom.getTile(topDestTileX, bottomDestTileY).solid
-                && !currentRoom.getTile(bottomDestTileX, topDestTileY).solid
-                && !currentRoom.getTile(bottomDestTileX, bottomDestTileY).solid) {
+        if (!dungeon.getCurrentRoom().getTile(topDestTileX, topDestTileY).solid
+                && !dungeon.getCurrentRoom().getTile(topDestTileX, bottomDestTileY).solid
+                && !dungeon.getCurrentRoom().getTile(bottomDestTileX, topDestTileY).solid
+                && !dungeon.getCurrentRoom().getTile(bottomDestTileX, bottomDestTileY).solid) {
             hero.X -= dx;
             hero.Y -= dy;
         }
@@ -137,7 +139,7 @@ public class Main extends Application {
         int mx = t.id / 10;
         int my = t.id % 10;
 
-        g.drawImage(currentRoom.tileSet, mx * tileWidthPx, my * tileHeightPx, tileWidthPx, tileHeightPx,
+        g.drawImage(dungeon.getCurrentRoom().tileSet, mx * tileWidthPx, my * tileHeightPx, tileWidthPx, tileHeightPx,
                 x, y, tileWidth, tileHeight);
     }
 
@@ -145,9 +147,9 @@ public class Main extends Application {
         g.setFill(Color.BLACK);
         g.fillRect(0, 0, W, H);
 
-        for (int i = 0; i < currentRoom.sizeY; i++) {
-            for (int j = 0; j < currentRoom.sizeX; j++) {
-                drawTile(g, currentRoom.getTile(i, j), i * tileWidth + cameraX, j * tileHeight + cameraY);
+        for (int i = 0; i < dungeon.getCurrentRoom().sizeY; i++) {
+            for (int j = 0; j < dungeon.getCurrentRoom().sizeX; j++) {
+                drawTile(g, dungeon.getCurrentRoom().getTile(i, j), i * tileWidth + cameraX, j * tileHeight + cameraY);
             }
         }
 
