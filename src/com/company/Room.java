@@ -12,7 +12,7 @@ import java.util.List;
 class Room {
 
     List<String> adjacentRooms = new ArrayList<>();
-    String name;
+    String name; // no spaces
 
     Image tileSet;
 

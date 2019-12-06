@@ -145,6 +145,8 @@ public class Main extends Application {
 
     private static void processEffect(Entity entity, Effect effect) {
         switch (effect.type) {
+            case NOTHING:
+                break;
             case ROOM_CHANGE:
                 changeRoom(effect.effectText);
                 break;
@@ -152,6 +154,12 @@ public class Main extends Application {
                 String[] coords = effect.effectText.split(" ");
                 entity.X = Integer.parseInt(coords[0]);
                 entity.Y = Integer.parseInt(coords[1]);
+                break;
+            case ROOM_COORD_CHANGE:
+                String[] args = effect.effectText.split(" ");
+                changeRoom(args[0]);
+                entity.X = Integer.parseInt(args[1]);
+                entity.Y = Integer.parseInt(args[2]);
                 break;
             case STATE_CHANGE:
                 entity.processEffect(effect);
