@@ -8,7 +8,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
-import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
 
@@ -84,7 +83,6 @@ public class Main extends Application {
                 case SHIFT: running = false; break;
                 case S: soundPlayer.playSound("abracadabra.wav"); break;
                 case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
-                case D: soundPlayer.playSoundTest(); break;
                 case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
                 case T: changeRoom("start"); break;   // for debug
                 case Y: changeRoom("room2"); break;   // changes the room
