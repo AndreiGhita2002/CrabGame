@@ -8,7 +8,7 @@ class SoundPlayer {
     Boolean willPlay = true; // enable/disable sound
 
     //Play abracadabra.wav test sound
-    void playSoundTest () {
+    /*void playSoundTest () {
         if (willPlay) {
             try {
                 Media m = new Media("file:///" + System.getProperty("user.dir").replace('\\', '/') + "/resources/sfx/" + "abracadabra.wav");
@@ -18,9 +18,8 @@ class SoundPlayer {
             } catch (Exception IOException) {
                 System.out.println("Error: abracadabra.wav failed to play");
             }
-            //TODO this method shouldn't be different from playSound
         }
-    }
+    }*/
 
     //Play a sound
     void playSound(String soundName) {
@@ -52,7 +51,7 @@ class SoundPlayer {
         if (willPlay) {
 
 
-            // should get the file name from the text file and then call platSound()
+            // should get the file name from the text file and then call playSound()
         }
 
     }
@@ -66,9 +65,40 @@ class SoundPlayer {
         }
     }
 
-    //TODO play sound when player moves
-    // ^^ should be called from the Main class
-    // this class should not be aware at all of what is happening in Main Class
-    // instead Main.movementInput() should call the playSound() method
+    //idk some crap to play sound on repeat. Not done. Don't call or you gay. Have to find a way to play end to end on repeat until doPlay == 0. Use pointers maybe?
+    //alternatively I could shoot myself
+    public void playSoundCycle(String soundFile) {
+        if (willPlay) {
+            try {
+                int doPlay = 1; //find a way to make doPlay a pointer
+                float trackLength = 0;
+                for (int play = 1; play == 1; ) {
+                    System.out.println("Playing " + soundFile + " from playSoundCycle()");
+                    playSound(soundFile);
+                    play = doPlay;
+                }
+            } catch (Exception IOException) {
+                System.out.println("Error: sound file " + soundFile + " not found");
+            }
+            //TODO play sound when player moves
+            // ^^ should be called from the Main class
+            // this class should not be aware at all of what is happening in Main Class
+            // instead Main.movementInput() should call the playSound() method
+        }
 
+    /*void playSoundCycleStart(String soundFile) {
+        if (willPlay) {
+            try {
+                playSoundCycle(soundFile);
+            }
+            catch (Exception IOException) {
+                System.out.println("Error: sound file " + soundFile + "not found.");
+            }
+        }
+    }*/
+
+    /*void playSoundCycleEnd() {
+        int x;
+    }*/
+    }
 }

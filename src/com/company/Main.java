@@ -8,11 +8,15 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
+import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
 public class Main extends Application {
 
     // TODO add window resizing
-    private static final int W = 600, H = 600;
+    private static int windowSizeWidth = 600, getWindowSizeHeight = 600;
+    private static final int W = windowSizeWidth, H = getWindowSizeHeight;
     private static final int tileWidthPx  = 32; // tile width in px
     private static final int tileHeightPx = 32; // tile height in px
     private static final int zoomFactor = 2;
@@ -42,6 +46,9 @@ public class Main extends Application {
         hero.X = W / 2;
         hero.Y = H / 2;
 
+        //Get maximum screen size
+        setScreenBounds();
+
         resetCamera();
 
         Group root = new Group();
@@ -60,7 +67,7 @@ public class Main extends Application {
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:    goNorth = true; break;
+                case UP:    goNorth = true; soundPlayer.playSoundCycle("abracadabra.wav"); break;
                 case DOWN:  goSouth = true; break;
                 case LEFT:  goWest  = true; break;
                 case RIGHT: goEast  = true; break;
@@ -131,6 +138,13 @@ public class Main extends Application {
 
         hero.refresh();
 
+//        soundPlayer.playSoundCycleStart(1, "abracadabra.wav");
+//        soundPlayer.playSoundTest("abracadabra.wav");
+
+//        System.out.print(destTileX);
+//        System.out.print(" ");
+//        System.out.println(destTileY);
+
         moveCamera();
     }
 
@@ -170,6 +184,11 @@ public class Main extends Application {
     private static void moveCamera() {
         //TODO add camera movement when the room is bigger than the view
 
+    }
+
+    public static void setScreenBounds() {
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        System.out.println(screenBounds);
     }
 
     private static void drawTile(GraphicsContext g, Tile t, int x, int y) {
