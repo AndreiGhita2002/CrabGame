@@ -5,7 +5,7 @@ import javafx.scene.media.MediaPlayer;
 
 class SoundPlayer {
 
-    Boolean willPlay = true; // enable/disable sound
+    Boolean willPlay = false; // enable/disable sound
 
     //Play abracadabra.wav test sound
     /*void playSoundTest () {
@@ -72,7 +72,7 @@ class SoundPlayer {
             try {
                 int doPlay = 1; //find a way to make doPlay a pointer
                 float trackLength = 0;
-                for (int play = 1; play == 1; ) {
+                for (int play = 1; play == 1; ) { //TODO please remove this
                     System.out.println("Playing " + soundFile + " from playSoundCycle()");
                     playSound(soundFile);
                     play = doPlay;

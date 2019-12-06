@@ -106,6 +106,10 @@ class Room {
         }
     }
 
+    void setTileEffect(Integer X, Integer Y, Effect effect) {
+        getTile(X, Y).stepOnEffect = effect;
+    }
+
     Tile getTile(Integer X, Integer Y) {
         return tileMap.get(Y).get(X);
 

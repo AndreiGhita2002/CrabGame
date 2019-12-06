@@ -14,8 +14,8 @@ import javafx.stage.Screen;
 public class Main extends Application {
 
     // TODO add window resizing
-    private static int windowSizeWidth = 600, getWindowSizeHeight = 600;
-    private static final int W = windowSizeWidth, H = getWindowSizeHeight;
+    private static int windowSizeWidth = 600, windowSizeHeight = 600;
+    private static final int W = windowSizeWidth, H = windowSizeHeight;
     private static final int tileWidthPx  = 32; // tile width in px
     private static final int tileHeightPx = 32; // tile height in px
     private static final int zoomFactor = 2;
@@ -60,7 +60,6 @@ public class Main extends Application {
         stage.show();
         render(gc);
 
-
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
 
@@ -84,8 +83,8 @@ public class Main extends Application {
                 case S: soundPlayer.playSound("abracadabra.wav"); break;
                 case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
                 case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
-                case T: changeRoom("start"); break;   // for debug
-                case Y: changeRoom("room2"); break;   // changes the room
+                case T: changeRoom("start", hero); break;   // for debug
+                case Y: changeRoom("room2", hero); break;   // changes the room
             }
         });
 
@@ -100,13 +99,24 @@ public class Main extends Application {
         timer.start();
     }
 
-    private static void changeRoom(String newRoomName) {
+    private static void changeRoom(String newRoomName, Entity entity) {
         dungeon.currentRoomName = newRoomName;
 
-        hero.X = dungeon.getCurrentRoom().startTileX * tileWidth;
-        hero.Y = dungeon.getCurrentRoom().startTileX * tileHeight;
+        entity.X = dungeon.getCurrentRoom().startTileX * tileWidth;
+        entity.Y = dungeon.getCurrentRoom().startTileX * tileHeight;
 
-        hero.refresh();
+        entity.refresh();
+
+        moveCamera();
+    }
+
+    private static void changeRoom(String newRoomName, Entity entity, Integer newX, Integer newY) {
+        dungeon.currentRoomName = newRoomName;
+
+        entity.X = newX * tileWidth;
+        entity.Y = newY * tileHeight;
+
+        entity.refresh();
 
         moveCamera();
     }
@@ -160,7 +170,7 @@ public class Main extends Application {
             case NOTHING:
                 break;
             case ROOM_CHANGE:
-                changeRoom(effect.effectText);
+                changeRoom(effect.effectText, entity);
                 break;
             case COORD_CHANGE:
                 String[] coords = effect.effectText.split(" ");
@@ -169,9 +179,7 @@ public class Main extends Application {
                 break;
             case ROOM_COORD_CHANGE:
                 String[] args = effect.effectText.split(" ");
-                changeRoom(args[0]);
-                entity.X = Integer.parseInt(args[1]);
-                entity.Y = Integer.parseInt(args[2]);
+                changeRoom(args[0], entity, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
                 break;
             case STATE_CHANGE:
                 entity.processEffect(effect);
@@ -189,7 +197,7 @@ public class Main extends Application {
         System.out.println(screenBounds);
     }
 
-    private static void drawTile(GraphicsContext g, Tile t, int x, int y) {
+    private static void drawTile(GraphicsContext g, Tile t, Integer x, Integer y) {
         // map Tile from the tile set
         int mx = t.id / 10;
         int my = t.id % 10;

@@ -52,6 +52,8 @@ class Dungeon {
 
         linkRooms("start", "room2");
         linkRooms("room2", "start");
+
+        getRoom("start").setTileEffect(1, 1, new Effect(EffectType.ROOM_COORD_CHANGE, "room2 6 3"));
     }
 
     Dungeon() {
