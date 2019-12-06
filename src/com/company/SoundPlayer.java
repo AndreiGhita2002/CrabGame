@@ -65,8 +65,9 @@ class SoundPlayer {
         }
     }
 
-    //idk some crap to play sound on repeat. Not done. Don't call or you gay. Have to find a way to play end to end on repeat until doPlay == 0. Use pointers maybe?
-    //alternatively I could shoot myself
+    // idk some crap to play sound on repeat. Not done. Don't call or you gay. Have to find a way to play end to end on repeat until doPlay == 0. Use pointers maybe?
+    // alternatively I could shoot myself
+    // java doesn't have pointers and that would be too hard
     public void playSoundCycle(String soundFile) {
         if (willPlay) {
             try {
