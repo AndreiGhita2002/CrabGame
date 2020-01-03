@@ -1,2 +1,4 @@
 # Project exclude paths
 /out/
+/.idea/libraries/java_fx_lib_1_13.xml
+/.idea/libraries/javafx_lib.xml

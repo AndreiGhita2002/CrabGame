@@ -40,6 +40,7 @@ class Room {
 
             String str;
 
+            // for tiles
             for (List<Tile> tiles : tileMap) {
                 if (!(tileMap.indexOf(tiles) == 0 || tileMap.indexOf(tiles) == sizeY - 1)) { // does not read for the boundaries
 
@@ -52,10 +53,12 @@ class Room {
                 }
             }
 
+            // reads until the separator
             do {
                 str = reader.readLine();
             } while (!str.equals("e"));
 
+            // for solidity
             for (List<Tile> tiles : tileMap) {
                 if (!(tileMap.indexOf(tiles) == 0 || tileMap.indexOf(tiles) == sizeY - 1)) { // does not read for the boundaries
 
@@ -111,6 +114,11 @@ class Room {
     }
 
     Tile getTile(Integer X, Integer Y) {
+
+        if (X < 0 || Y < 0 || X > sizeX || Y > sizeY) {
+            return new Tile();
+        }
+
         return tileMap.get(Y).get(X);
 
     }

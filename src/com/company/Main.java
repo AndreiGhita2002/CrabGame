@@ -8,19 +8,20 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
-import javafx.geometry.Rectangle2D;
-import javafx.stage.Screen;
 
 public class Main extends Application {
 
     // TODO add window resizing
-    private static int windowSizeWidth = 600, windowSizeHeight = 600;
-    private static final int W = windowSizeWidth, H = windowSizeHeight;
-    private static final int tileWidthPx  = 32; // tile width in px
+    private static int W = 1200, H = 1200;
+    private static int tileWidthPx  = 32; // tile width in px
     private static final int tileHeightPx = 32; // tile height in px
     private static final int zoomFactor = 2;
     private static final int tileWidth  = tileWidthPx * zoomFactor;   // tile width
     private static final int tileHeight = tileHeightPx * zoomFactor;  // tile height
+
+    private static int offsetX = 0;
+    private static int offsetY = 0;
+    private static int movementBorder = tileWidth;
 
     private static Integer cameraX;
     private static Integer cameraY;
@@ -42,11 +43,8 @@ public class Main extends Application {
 
         soundPlayer = new SoundPlayer();
 
-        hero.X = W / 2;
+        hero.X = W / 3;
         hero.Y = H / 2;
-
-        //Get maximum screen size
-        setScreenBounds();
 
         resetCamera();
 
@@ -62,6 +60,12 @@ public class Main extends Application {
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
+
+//        scene.widthProperty().addListener();
+
+//        scene.widthProperty().addListener((obs, oldVal, newVal) -> {
+//            W = scene.widthProperty().getValue().intValue();
+//        });
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
@@ -190,11 +194,13 @@ public class Main extends Application {
     private static void moveCamera() {
         //TODO add camera movement when the room is bigger than the view
 
-    }
+//        if (hero.Y > H - movementBorder) {  // South Border
+//            offsetY = H - movementBorder - hero.Y;
+//
+//            hero.Y = H - movementBorder;
+//        }
+        // ^^ should work
 
-    public static void setScreenBounds() {
-        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-        System.out.println(screenBounds);
     }
 
     private static void drawTile(GraphicsContext g, Tile t, Integer x, Integer y) {
