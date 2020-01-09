@@ -130,34 +130,30 @@ public class Main extends Application {
     private static void movementInput() {
         int dx = 0, dy = 0;
 
+        // calculating the destination X and Y
         if (goNorth) dy += zoomFactor;
         if (goSouth) dy -= zoomFactor;
         if (goEast)  dx -= zoomFactor;
         if (goWest)  dx += zoomFactor;
         if (running) { dx *= 3; dy *= 3; }
 
+        //calculating the collision box of the hero after movement:
         Integer topDestTileX = (hero.X - dx - topCornerXPx) / tileWidth;
         Integer topDestTileY = (hero.Y - dy - topCornerYPx) / tileHeight;
 
         Integer bottomDestTileX = (hero.X - dx + tileWidth - 1 - topCornerXPx) / tileWidth;
         Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1 - topCornerYPx) / tileHeight;
 
+        // checks if any of the corners of the collision box are part of any solid tile
         if (!dungeon.getCurrentRoom().getTile(topDestTileX, topDestTileY).solid
                 && !dungeon.getCurrentRoom().getTile(topDestTileX, bottomDestTileY).solid
                 && !dungeon.getCurrentRoom().getTile(bottomDestTileX, topDestTileY).solid
                 && !dungeon.getCurrentRoom().getTile(bottomDestTileX, bottomDestTileY).solid) {
-            hero.X -= dx;
+            hero.X -= dx;  // changes the coords of the hero
             hero.Y -= dy;
         }
 
         hero.refresh();
-
-//        soundPlayer.playSoundCycleStart(1, "abracadabra.wav");
-//        soundPlayer.playSoundTest("abracadabra.wav");
-
-//        System.out.print(destTileX);
-//        System.out.print(" ");
-//        System.out.println(destTileY);
 
 //        moveCamera(); doesn't work at the moment; come back later
     }
@@ -228,9 +224,11 @@ public class Main extends Application {
     }
 
     private static void render(GraphicsContext g) {
+        // drawing a black background
         g.setFill(Color.BLACK);
         g.fillRect(0, 0, W, H);
 
+        // iterates through the every tile in the current room and draws the tiles at the correct coordinates
         for (int i = 0; i < dungeon.getCurrentRoom().sizeY; i++) {
             for (int j = 0; j < dungeon.getCurrentRoom().sizeX; j++) {
                 drawTile(g, dungeon.getCurrentRoom().getTile(i, j),
@@ -241,8 +239,10 @@ public class Main extends Application {
 
         //TODO rendering multiple sprites
 
+        // drawing the hero sprite
         g.drawImage(hero.spriteImage, hero.X + offsetX, hero.Y + offsetY, tileWidth, tileHeight);
 
+        // drawing the UI
         drawUI(g);
     }
 

@@ -35,6 +35,14 @@ class Room {
     }
 
     private void getMapFromText(String path) {
+        // reads the tiles and their solidity from a plain text file
+        // the format for the file is as follows:
+        // 1. a matrix of numbers that represent the tile IDs
+        // 2. the character 'e' to denote the end of the first matrix
+        // 3. a matrix of 1s and 0s that denote the solidity of the tiles
+        // 4. the character 'e' to denote the end of the second matrix
+        // 5. two numbers that represent the default entering coordinates
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
 
@@ -98,16 +106,20 @@ class Room {
         }
     }
 
-    private void outputTileMapText() {
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+
         for (List<Tile> tiles : tileMap) {
             for (Tile tile : tiles) {
-                System.out.print(tile.id);
-                System.out.print("|");
-                System.out.print(tile.solid);
-                System.out.print(" ");
+
+                out.append(tile.id);
+                out.append("|");
+                out.append(tile.solid);
+                out.append(" ");
             }
-            System.out.println();
+            out.append("\n");
         }
+        return out.toString();
     }
 
     void setTileEffect(Integer X, Integer Y, Effect effect) {
@@ -116,6 +128,7 @@ class Room {
 
     Tile getTile(Integer X, Integer Y) {
 
+        // if the tile requested then it returns a solid tile of ID 14
         if (X < 0 || Y < 0 || X >= sizeX || Y >= sizeY) {
             return new Tile(14, true);
         }
@@ -139,6 +152,7 @@ class Room {
         // init list list
         tileMap = new ArrayList<>();
 
+        // adding boundaries
         for (int i = 0; i < sizeY; i++) {
             tileMap.add(new ArrayList<>());
 
@@ -155,7 +169,5 @@ class Room {
 
         // get tileSet image
         getTileSetImage();
-
-//        outputTileMapText();
     }
 }
