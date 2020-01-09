@@ -47,8 +47,8 @@ class Dungeon {
     void testInit() {
         currentRoomName = "start";
 
-        roomList.add(new Room(10, 10, "start", "resources/map_room1.txt"));
-        roomList.add(new Room(10, 10, "room2", "resources/map_room2.txt"));
+        roomList.add(new Room(10, 10, "start", "resources/dungeon/map_room1.txt"));
+        roomList.add(new Room(10, 10, "room2", "resources/dungeon/map_room2.txt"));
 
         linkRooms("start", "room2");
         linkRooms("room2", "start");

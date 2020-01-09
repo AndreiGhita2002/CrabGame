@@ -22,8 +22,8 @@ public class Main extends Application {
     private static Integer offsetX = 0;
     private static Integer offsetY = 0;
 
-    private static Integer topCornerX;
-    private static Integer topCornerY;
+    private static Integer topCornerXPx;
+    private static Integer topCornerYPx;
 
     private static Dungeon dungeon;
 
@@ -38,12 +38,15 @@ public class Main extends Application {
 
         dungeon = new Dungeon();
 
-        hero = new Entity("file:resources/small_hero.png");
+        hero = new Entity("file:resources/textures/small_hero.png");
 
         soundPlayer = new SoundPlayer();
 
-        hero.X = dungeon.getCurrentRoom().startTileX * tileWidth;
-        hero.Y = dungeon.getCurrentRoom().startTileY * tileHeight;
+        topCornerXPx = W / 2 - (dungeon.getCurrentRoom().sizeX / 2 * tileWidth);
+        topCornerYPx = H / 2 - (dungeon.getCurrentRoom().sizeY / 2 * tileHeight);
+
+        hero.X = dungeon.getCurrentRoom().startTileX * tileWidth  + topCornerXPx;
+        hero.Y = dungeon.getCurrentRoom().startTileY * tileHeight + topCornerYPx;
 
         resetCamera();
 
@@ -56,9 +59,6 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         render(gc);
-
-        topCornerX = W / 2 - (dungeon.getCurrentRoom().sizeX / 2 * tileWidth);
-        topCornerY = H / 2 - (dungeon.getCurrentRoom().sizeY / 2 * tileHeight);
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
@@ -108,8 +108,8 @@ public class Main extends Application {
     private static void changeRoom(String newRoomName, Entity entity) {
         dungeon.currentRoomName = newRoomName;
 
-        entity.X = dungeon.getCurrentRoom().startTileX * tileWidth;
-        entity.Y = dungeon.getCurrentRoom().startTileX * tileHeight;
+        entity.X = dungeon.getCurrentRoom().startTileX * tileWidth  + topCornerXPx;
+        entity.Y = dungeon.getCurrentRoom().startTileX * tileHeight + topCornerYPx;
 
         entity.refresh();
 
@@ -136,11 +136,11 @@ public class Main extends Application {
         if (goWest)  dx += zoomFactor;
         if (running) { dx *= 3; dy *= 3; }
 
-        Integer topDestTileX = (hero.X - dx - topCornerX) / tileWidth;
-        Integer topDestTileY = (hero.Y - dy - topCornerY) / tileHeight;
+        Integer topDestTileX = (hero.X - dx - topCornerXPx) / tileWidth;
+        Integer topDestTileY = (hero.Y - dy - topCornerYPx) / tileHeight;
 
-        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1 - topDestTileX) / tileWidth;
-        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1 - topDestTileY) / tileHeight;
+        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1 - topCornerXPx) / tileWidth;
+        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1 - topCornerYPx) / tileHeight;
 
         if (!dungeon.getCurrentRoom().getTile(topDestTileX, topDestTileY).solid
                 && !dungeon.getCurrentRoom().getTile(topDestTileX, bottomDestTileY).solid
@@ -234,8 +234,8 @@ public class Main extends Application {
         for (int i = 0; i < dungeon.getCurrentRoom().sizeY; i++) {
             for (int j = 0; j < dungeon.getCurrentRoom().sizeX; j++) {
                 drawTile(g, dungeon.getCurrentRoom().getTile(i, j),
-                        i * tileWidth  + offsetX + topCornerX,
-                        j * tileHeight + offsetY + topCornerY);
+                        i * tileWidth  + offsetX + topCornerXPx,
+                        j * tileHeight + offsetY + topCornerYPx);
             }
         }
 

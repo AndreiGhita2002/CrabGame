@@ -30,7 +30,7 @@ class Room {
     }
 
     private void getTileSetImage() {
-        tileSet = new Image("file:resources/tileset.png");
+        tileSet = new Image("file:resources/textures/tileset.png");
 
     }
 
