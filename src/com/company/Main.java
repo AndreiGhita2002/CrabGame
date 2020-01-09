@@ -12,19 +12,18 @@ import javafx.scene.*;
 public class Main extends Application {
 
     // TODO add window resizing
-    private static int W = 1200, H = 1200;
-    private static int tileWidthPx  = 32; // tile width in px
+    private static int W = 1000, H = 1000;
+    private static final int tileWidthPx  = 32; // tile width in px
     private static final int tileHeightPx = 32; // tile height in px
-    private static final int zoomFactor = 2;
+    private static final int zoomFactor = 2;    // kinda weird if 3; fix later
     private static final int tileWidth  = tileWidthPx * zoomFactor;   // tile width
     private static final int tileHeight = tileHeightPx * zoomFactor;  // tile height
 
-    private static int offsetX = 0;
-    private static int offsetY = 0;
-    private static int movementBorder = tileWidth;
+    private static Integer offsetX = 0;
+    private static Integer offsetY = 0;
 
-    private static Integer cameraX;
-    private static Integer cameraY;
+    private static Integer topCornerX;
+    private static Integer topCornerY;
 
     private static Dungeon dungeon;
 
@@ -43,8 +42,8 @@ public class Main extends Application {
 
         soundPlayer = new SoundPlayer();
 
-        hero.X = W / 3;
-        hero.Y = H / 2;
+        hero.X = dungeon.getCurrentRoom().startTileX * tileWidth;
+        hero.Y = dungeon.getCurrentRoom().startTileY * tileHeight;
 
         resetCamera();
 
@@ -57,6 +56,9 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         render(gc);
+
+        topCornerX = W / 2 - (dungeon.getCurrentRoom().sizeX / 2 * tileWidth);
+        topCornerY = H / 2 - (dungeon.getCurrentRoom().sizeY / 2 * tileHeight);
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
@@ -134,11 +136,11 @@ public class Main extends Application {
         if (goWest)  dx += zoomFactor;
         if (running) { dx *= 3; dy *= 3; }
 
-        Integer topDestTileX = (hero.X - dx) / tileWidth;
-        Integer topDestTileY = (hero.Y - dy) / tileHeight;
+        Integer topDestTileX = (hero.X - dx - topCornerX) / tileWidth;
+        Integer topDestTileY = (hero.Y - dy - topCornerY) / tileHeight;
 
-        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1) / tileWidth;
-        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1) / tileHeight;
+        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1 - topDestTileX) / tileWidth;
+        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1 - topDestTileY) / tileHeight;
 
         if (!dungeon.getCurrentRoom().getTile(topDestTileX, topDestTileY).solid
                 && !dungeon.getCurrentRoom().getTile(topDestTileX, bottomDestTileY).solid
@@ -157,7 +159,7 @@ public class Main extends Application {
 //        System.out.print(" ");
 //        System.out.println(destTileY);
 
-        moveCamera();
+//        moveCamera(); doesn't work at the moment; come back later
     }
 
     private static void groundEffectPass(Entity entity) {
@@ -194,13 +196,26 @@ public class Main extends Application {
     private static void moveCamera() {
         //TODO add camera movement when the room is bigger than the view
 
-//        if (hero.Y > H - movementBorder) {  // South Border
-//            offsetY = H - movementBorder - hero.Y;
-//
-//            hero.Y = H - movementBorder;
-//        }
-        // ^^ should work
+        int movementBorder = tileWidth * 3;
 
+        int totalY = H + offsetY;
+        int totalX = W + offsetX;
+
+        if (hero.Y > totalY - movementBorder) {  // South Border
+            offsetY = H - movementBorder - hero.Y;
+        }   // for some reason it follows the hero up
+
+//        if (hero.Y < movementBorder) {  // North Border
+//            offsetY = movementBorder + hero.Y;
+//        }   // idk atm; doesn't work
+
+        if (hero.X > totalX - movementBorder) {  // East Border
+            offsetX = totalX - movementBorder - hero.X;
+        }
+
+//        if (hero.X < movementBorder) {  // West Border
+//            offsetX = movementBorder + hero.X;
+//        }   // idk atm; doesn't work
     }
 
     private static void drawTile(GraphicsContext g, Tile t, Integer x, Integer y) {
@@ -218,20 +233,26 @@ public class Main extends Application {
 
         for (int i = 0; i < dungeon.getCurrentRoom().sizeY; i++) {
             for (int j = 0; j < dungeon.getCurrentRoom().sizeX; j++) {
-                drawTile(g, dungeon.getCurrentRoom().getTile(i, j), i * tileWidth + cameraX, j * tileHeight + cameraY);
+                drawTile(g, dungeon.getCurrentRoom().getTile(i, j),
+                        i * tileWidth  + offsetX + topCornerX,
+                        j * tileHeight + offsetY + topCornerY);
             }
         }
 
         //TODO rendering multiple sprites
 
-        g.drawImage(hero.spriteImage, hero.X, hero.Y, tileWidth, tileHeight);
+        g.drawImage(hero.spriteImage, hero.X + offsetX, hero.Y + offsetY, tileWidth, tileHeight);
+
+        drawUI(g);
+    }
+
+    private static void drawUI(GraphicsContext g) {
+        //TODO drawing the interface
     }
 
     private static void resetCamera() {
-//        hero.X = W / 2;
-//        hero.Y = W / 2;
-        cameraX = 0;
-        cameraY = 0;
+        offsetX = 0;
+        offsetY = 0;
     }
 
     public static void main(String[] args) {

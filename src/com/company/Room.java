@@ -73,6 +73,7 @@ class Room {
                 }
             }
 
+            // reads until the separator
             do {
                 str = reader.readLine();
             } while (!str.equals("e"));
@@ -115,8 +116,8 @@ class Room {
 
     Tile getTile(Integer X, Integer Y) {
 
-        if (X < 0 || Y < 0 || X > sizeX || Y > sizeY) {
-            return new Tile();
+        if (X < 0 || Y < 0 || X >= sizeX || Y >= sizeY) {
+            return new Tile(14, true);
         }
 
         return tileMap.get(Y).get(X);
