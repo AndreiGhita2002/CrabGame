@@ -1,0 +1,11 @@
+# declaring the rooms
+§ start map_room1.txt 10 10
+§ room2 map_room2.txt 10 10
+
+# linking rooms
+& start room2
+
+# special tiles
+* start roomChange-1-1-room2-6-3
+
+end

@@ -92,6 +92,8 @@ class Room {
             startTileX = Integer.parseInt(input[0]);
             startTileY = Integer.parseInt(input[1]);
 
+            reader.close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -124,6 +126,11 @@ class Room {
 
     void setTileEffect(Integer X, Integer Y, Effect effect) {
         getTile(X, Y).stepOnEffect = effect;
+    }
+
+    void setTileEffect(String string) {
+        System.out.println("room " + name + " has called setTileEffect() with the arg: " + string);
+        //TODO setTileEffect()
     }
 
     Tile getTile(Integer X, Integer Y) {
