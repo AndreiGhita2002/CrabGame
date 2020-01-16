@@ -38,7 +38,7 @@ public class Main extends Application {
 
         dungeon = new Dungeon();
 
-        hero = new Entity("file:resources/textures/small_hero.png");
+        hero = new Entity("file:resources/textures/Base_Crab.png");
 
         soundPlayer = new SoundPlayer();
 
@@ -116,11 +116,11 @@ public class Main extends Application {
         moveCamera();
     }
 
-    private static void changeRoom(String newRoomName, Entity entity, Integer newX, Integer newY) {
+    private static void changeRoom(String newRoomName, Entity entity, Integer newTileX, Integer newTileY) {
         dungeon.currentRoomName = newRoomName;
 
-        entity.X = newX * tileWidth;
-        entity.Y = newY * tileHeight;
+        entity.X = getCoordsFromTileX(newTileX);
+        entity.Y = getCoordsFromTileY(newTileY);
 
         entity.refresh();
 
@@ -138,11 +138,11 @@ public class Main extends Application {
         if (running) { dx *= 3; dy *= 3; }
 
         //calculating the collision box of the hero after movement:
-        Integer topDestTileX = (hero.X - dx - topCornerXPx) / tileWidth;
-        Integer topDestTileY = (hero.Y - dy - topCornerYPx) / tileHeight;
+        Integer topDestTileX = getTileFromCoordsX(hero.X - dx);
+        Integer topDestTileY = getTileFromCoordsY(hero.Y - dy);
 
-        Integer bottomDestTileX = (hero.X - dx + tileWidth - 1 - topCornerXPx) / tileWidth;
-        Integer bottomDestTileY = (hero.Y - dy + tileWidth - 1 - topCornerYPx) / tileHeight;
+        Integer bottomDestTileX = getTileFromCoordsX(hero.X - dx + tileWidth  - 1);
+        Integer bottomDestTileY = getTileFromCoordsY(hero.Y - dy + tileHeight - 1);
 
         // checks if any of the corners of the collision box are part of any solid tile
         if (!dungeon.getCurrentRoom().getTile(topDestTileX, topDestTileY).solid
@@ -159,8 +159,8 @@ public class Main extends Application {
     }
 
     private static void groundEffectPass(Entity entity) {
-        Integer entityTileX = entity.X / tileWidth;
-        Integer entityTileY = entity.Y / tileHeight;
+        Integer entityTileX = getTileFromCoordsX(hero.X);
+        Integer entityTileY = getTileFromCoordsY(hero.Y);
 
         Effect groundEffect = dungeon.getCurrentRoom().getTileEffect(entityTileX, entityTileY);
 
@@ -253,6 +253,22 @@ public class Main extends Application {
     private static void resetCamera() {
         offsetX = 0;
         offsetY = 0;
+    }
+
+    private static Integer getTileFromCoordsX(Integer coordsX) {
+        return (coordsX - topCornerXPx) / tileWidth;
+    }
+
+    private static Integer getTileFromCoordsY(Integer coordsY) {
+        return (coordsY - topCornerYPx) / tileHeight;
+    }
+
+    private static Integer getCoordsFromTileX(Integer tileX) {
+        return tileX * tileWidth + topCornerXPx;
+    }
+
+    private static Integer getCoordsFromTileY(Integer tileY) {
+        return tileY * tileHeight + topCornerYPx;
     }
 
     public static void main(String[] args) {

@@ -126,10 +126,29 @@ class Room {
 
     void setTileEffect(Integer X, Integer Y, Effect effect) {
         getTile(X, Y).stepOnEffect = effect;
+
+        //for debug:
+//        getTile(X, Y).id = 5;
     }
 
     void setTileEffect(String string) {
-        System.out.println("room " + name + " has called setTileEffect() with the arg: " + string);
+//        System.out.println("room " + name + " has called setTileEffect() with the arg: " + string);
+        // string example: roomChange-1-1-room2-6-3
+
+        String[] words = string.split("-");
+
+        switch (words[0]) {
+            case "roomChange":
+                Integer coordX = Integer.parseInt(words[1]);
+                Integer coordY = Integer.parseInt(words[2]);
+                Effect effect  = new Effect(EffectType.ROOM_COORD_CHANGE, words[3] + " " + words[4] + " " + words[5]);
+                setTileEffect(coordX, coordY, effect);
+                break;
+            default:
+                System.out.println("something wrong in Room.setTileEffect()");
+                break;
+        }
+
         //TODO setTileEffect()
     }
 
