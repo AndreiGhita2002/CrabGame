@@ -71,7 +71,7 @@ public class Main extends Application {
 
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:    goNorth = true; soundPlayer.playSoundCycle("abracadabra.wav"); break;
+                case UP:    goNorth = true; break;
                 case DOWN:  goSouth = true; break;
                 case LEFT:  goWest  = true; break;
                 case RIGHT: goEast  = true; break;
