@@ -247,7 +247,11 @@ public class Main extends Application {
     }
 
     private static void drawUI(GraphicsContext g) {
-        //TODO drawing the interface
+        g.setFill(Color.LIGHTGRAY);
+
+        String coordText = "Tile Coords: " + getTileFromCoordsX(hero.X) + ", " + getTileFromCoordsY(hero.Y);
+
+        g.fillText(coordText, 10, 10);
     }
 
     private static void resetCamera() {
