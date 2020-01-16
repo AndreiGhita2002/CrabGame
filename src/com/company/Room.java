@@ -24,6 +24,8 @@ class Room {
     Integer sizeX;
     Integer sizeY;
 
+    List<Entity> entityList;
+
     void addAdjacentRoom(Room room) {
         adjacentRooms.add(room.name);
 
@@ -195,5 +197,7 @@ class Room {
 
         // get tileSet image
         getTileSetImage();
+
+        entityList = new ArrayList<>();
     }
 }

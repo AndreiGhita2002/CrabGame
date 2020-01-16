@@ -7,5 +7,6 @@
 
 # special tiles
 * start roomChange-1-1-room2-6-3
+* room2 roomChange-6-6-start-8-3
 
 end

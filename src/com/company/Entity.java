@@ -34,4 +34,10 @@ class Entity extends ImageView {
     Entity(String imageUrl) {
         spriteImage = new Image(imageUrl);
     }
+
+    Entity(String imageURL, Integer X, Integer Y) {
+        this(imageURL);
+        this.X = X;
+        this.Y = Y;
+    }
 }

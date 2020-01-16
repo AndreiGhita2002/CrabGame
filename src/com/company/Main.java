@@ -9,6 +9,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main extends Application {
 
     // TODO add window resizing
@@ -59,6 +62,9 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         render(gc);
+
+        // for testing:
+        dungeon.getCurrentRoom().entityList.add(new Entity("file:resources/textures/npc_02.png", getCoordsFromTileX(3), getCoordsFromTileY(4)));
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
@@ -237,10 +243,13 @@ public class Main extends Application {
             }
         }
 
-        //TODO rendering multiple sprites
-
-        // drawing the hero sprite
+        // drawing the hero sprite first
         g.drawImage(hero.spriteImage, hero.X + offsetX, hero.Y + offsetY, tileWidth, tileHeight);
+
+        // drawing all other entities
+        for (Entity entity : dungeon.getCurrentRoom().entityList) {
+            g.drawImage(entity.spriteImage, entity.X + offsetX, entity.Y + offsetY, tileWidth, tileHeight);
+        }
 
         // drawing the UI
         drawUI(g);
