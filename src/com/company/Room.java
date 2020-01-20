@@ -106,7 +106,7 @@ class Room {
                 switch (words[0]) {
                     case "!":   // new dialogue start
                         if (!isFirst) {
-                            dialogueList.get(currentDialogueName).body = body.toString().toString();
+                            dialogueList.get(currentDialogueName).body = body.toString();
                             body = new StringBuilder();
                         }
 
