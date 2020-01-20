@@ -79,6 +79,15 @@ class Dungeon {
         return null;
     }
 
+    boolean hasRoom(String roomName) {
+        for (Room room : roomList) {
+            if (room.name.equals(roomName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void linkRooms(String roomName1, String roomName2) {
         // one directional
 

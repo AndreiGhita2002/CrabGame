@@ -230,6 +230,6 @@ class Room {
         getTileSetImage();
 
         // for testing
-        printDialogText();
+//        printDialogText();
     }
 }
