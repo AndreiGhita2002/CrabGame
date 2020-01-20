@@ -21,3 +21,32 @@ e
 1 0 1 1 1 0 0 0 0 1
 e
 3 3
+e
+! Hello_there
+. Hi!
+- PLAY_ANIMATION sender greetings
+. Hello there!
+? how are you doing?
+> Good_response Good!
+> Bad_mood Pretty bad dude
+
+! Good_response
+- PLAY_ANIMATION receiver happy
+. Great!
+
+! say_whtvr
+. whatevs
+
+! Bad_mood
+- PLAY_ANIMATION receiver sad
+. im sorry dude
+- PLAY_ANIMATION sender sad
+?
+> say_whtvr whatever
+> exit bye
+
+! exit
+. Goodbye
+
+
+end

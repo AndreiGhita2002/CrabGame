@@ -5,8 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 class Room {
@@ -24,7 +23,8 @@ class Room {
     Integer sizeX;
     Integer sizeY;
 
-    List<Entity> entityList;
+    List<Entity> entityList = new ArrayList<>();
+    HashMap<String, Dialogue> dialogueList = new HashMap<>();
 
     void addAdjacentRoom(Room room) {
         adjacentRooms.add(room.name);
@@ -36,7 +36,7 @@ class Room {
 
     }
 
-    private void getMapFromText(String path) {
+    private void readFile(String path) {
         // reads the tiles and their solidity from a plain text file
         // the format for the file is as follows:
         // 1. a matrix of numbers that represent the tile IDs
@@ -88,25 +88,48 @@ class Room {
                 str = reader.readLine();
             } while (!str.equals("e"));
 
+            // reading the start tiles
             str = reader.readLine();
-            String[] input = str.split(" ");
+            String[] startCoords = str.split(" ");
+            startTileX = Integer.parseInt(startCoords[0]);
+            startTileY = Integer.parseInt(startCoords[1]);
 
-            startTileX = Integer.parseInt(input[0]);
-            startTileY = Integer.parseInt(input[1]);
+            // reading the dialogue
+            String line = reader.readLine();
+            String[] words = line.split(" ");
+            String currentDialogueName = "";
+            StringBuilder body = new StringBuilder();
+            boolean isFirst = true;
+
+            while (!words[0].equals("end")) {
+
+                switch (words[0]) {
+                    case "!":   // new dialogue start
+                        if (!isFirst) {
+                            dialogueList.get(currentDialogueName).body = body.toString().toString();
+                            body = new StringBuilder();
+                        }
+
+                        dialogueList.put(words[1], new Dialogue(words[1]));
+                        currentDialogueName = words[1];
+                        isFirst = false;
+                        break;
+
+                    case "." :   // new dialogue line
+                    case "-":   // effect
+                    case "?":   // new dialogue question
+                    case ">":   // dialogue option
+                        body.append(line).append("\n");
+                        break;
+                }
+                line = reader.readLine();
+                words = line.split(" ");
+            }
 
             reader.close();
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-
-        if (startTileX == null) {
-            startTileX = 5;
-            System.out.println("something strangeX in " + name + ".getMapFromText()");
-        }
-        if (startTileY == null) {
-            startTileY = 5;
-            System.out.println("something strangeY in " + name + ".getMapFromText()");
         }
     }
 
@@ -140,7 +163,7 @@ class Room {
         String[] words = string.split("-");
 
         switch (words[0]) {
-            case "roomChange":
+            case "ROOM_COORD_CHANGE":
                 Integer coordX = Integer.parseInt(words[1]);
                 Integer coordY = Integer.parseInt(words[2]);
                 Effect effect  = new Effect(EffectType.ROOM_COORD_CHANGE, words[3] + " " + words[4] + " " + words[5]);
@@ -151,7 +174,7 @@ class Room {
                 break;
         }
 
-        //TODO setTileEffect()
+        //TODO finish setTileEffect()
     }
 
     Tile getTile(Integer X, Integer Y) {
@@ -168,6 +191,14 @@ class Room {
     Effect getTileEffect(Integer x, Integer y) {
         return getTile(x, y).stepOnEffect;
 
+    }
+
+    void printDialogText() {
+
+        dialogueList.forEach((k, v)-> {
+            System.out.println("Dialogue " + k + " has body: ");
+            System.out.println(v.body);
+        });
     }
 
     Room(Integer setSizeX, Integer setSizeY, String name, String path) {
@@ -193,11 +224,12 @@ class Room {
             }
         }
 
-        getMapFromText(path);
+        readFile(path);
 
         // get tileSet image
         getTileSetImage();
 
-        entityList = new ArrayList<>();
+        // for testing
+        printDialogText();
     }
 }

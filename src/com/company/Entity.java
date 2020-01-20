@@ -16,6 +16,8 @@ class Entity extends ImageView {
 
     Image spriteImage;
 
+    Effect interactEffect;
+
     void refresh() {
         relocate(X, Y);
 
@@ -27,12 +29,18 @@ class Entity extends ImageView {
         // only god knows what
     }
 
+    Effect interact() {
+        return interactEffect;
+    }
+
     Entity(Image sprite) {
         spriteImage = sprite;
+        interactEffect = new Effect(EffectType.NOTHING);
     }
 
     Entity(String imageUrl) {
         spriteImage = new Image(imageUrl);
+        interactEffect = new Effect(EffectType.NOTHING);
     }
 
     Entity(String imageURL, Integer X, Integer Y) {

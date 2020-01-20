@@ -9,9 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main extends Application {
 
     // TODO add window resizing
@@ -35,6 +32,7 @@ public class Main extends Application {
     private static SoundPlayer soundPlayer;
 
     private static boolean running, goNorth, goSouth, goEast, goWest;
+    private static boolean canMove = true;
 
     @Override
     public void start(Stage stage) {
@@ -134,6 +132,8 @@ public class Main extends Application {
     }
 
     private static void movementInput() {
+        if (!canMove) return;
+
         int dx = 0, dy = 0;
 
         // calculating the destination X and Y
@@ -270,18 +270,22 @@ public class Main extends Application {
 
     private static Integer getTileFromCoordsX(Integer coordsX) {
         return (coordsX - topCornerXPx) / tileWidth;
+
     }
 
     private static Integer getTileFromCoordsY(Integer coordsY) {
         return (coordsY - topCornerYPx) / tileHeight;
+
     }
 
     private static Integer getCoordsFromTileX(Integer tileX) {
         return tileX * tileWidth + topCornerXPx;
+
     }
 
     private static Integer getCoordsFromTileY(Integer tileY) {
         return tileY * tileHeight + topCornerYPx;
+
     }
 
     public static void main(String[] args) {

@@ -5,6 +5,8 @@ enum EffectType {
     COORD_CHANGE,
     ROOM_COORD_CHANGE,
     STATE_CHANGE,
+    DIALOGUE,
+    PLAY_ANIMATION,
     NOTHING,
 }
 
@@ -21,6 +23,10 @@ class Effect {
     // STATE_CHANGE      = state change effect
     //                   - nothing to change atm
     //                   - this is the most complex effect type
+    // DIALOGUE          = opens a dialog window and starts the dialog process
+    //                   - effectText is the dialog name
+    // PLAY_ANIMATION    = plays an animation
+    //                   - the effectText is the animation name
     // NOTHING           = does nothing
 
     String effectText;

@@ -85,21 +85,8 @@ class Dungeon {
         getRoom(roomName1).addAdjacentRoom(getRoom(roomName2));
     }
 
-    void testInit() {
-        roomList.add(new Room(10, 10, "start", "resources/dungeon/map_room1.txt"));
-        roomList.add(new Room(10, 10, "room2", "resources/dungeon/map_room2.txt"));
-
-        linkRooms("start", "room2");
-        linkRooms("room2", "start");
-
-        getRoom("start").setTileEffect(1, 1, new Effect(EffectType.ROOM_COORD_CHANGE, "room2 6 3"));
-    }
-
     Dungeon() {
         currentRoomName = "start";
-
-//        testInit();
-
         readFiles();
     }
 }
