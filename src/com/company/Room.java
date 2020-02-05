@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 class Room {
@@ -17,11 +18,10 @@ class Room {
 
     Integer startTileX;
     Integer startTileY;
-
-    private List<List<Tile>> tileMap;
-
     Integer sizeX;
     Integer sizeY;
+
+    private List<List<Tile>> tileMap;
 
     List<Entity> entityList = new ArrayList<>();
     HashMap<String, Dialogue> dialogueList = new HashMap<>();
@@ -106,7 +106,7 @@ class Room {
                 switch (words[0]) {
                     case "!":   // new dialogue start
                         if (!isFirst) {
-                            dialogueList.get(currentDialogueName).body = body.toString();
+                            dialogueList.get(currentDialogueName).setBody(body.toString());
                             body = new StringBuilder();
                         }
 
@@ -115,7 +115,7 @@ class Room {
                         isFirst = false;
                         break;
 
-                    case "." :   // new dialogue line
+                    case ".":   // new dialogue line
                     case "-":   // effect
                     case "?":   // new dialogue question
                     case ">":   // dialogue option
@@ -193,11 +193,34 @@ class Room {
 
     }
 
+    Boolean hasDialogue(String dialogueName) {
+        AtomicReference<Boolean> out = new AtomicReference<>(false);
+
+        dialogueList.forEach((k, v)-> {
+            if (k.equals(dialogueName)) {
+                out.set(true);
+            }
+        });
+        return out.get();
+    }
+
+    Dialogue getDialogue(String dialogueName) {
+        AtomicReference<Dialogue> out = new AtomicReference<>();
+
+        dialogueList.forEach((k, v) -> {
+            if (k.equals(dialogueName)) {
+                out.set(v);
+            }
+        });
+        return out.get();
+    }
+
     void printDialogText() {
 
         dialogueList.forEach((k, v)-> {
             System.out.println("Dialogue " + k + " has body: ");
-            System.out.println(v.body);
+            System.out.println(v.toString());
+            System.out.println();
         });
     }
 

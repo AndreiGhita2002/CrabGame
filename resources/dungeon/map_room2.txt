@@ -33,6 +33,7 @@ e
 ! Good_response
 - PLAY_ANIMATION receiver happy
 . Great!
+?
 
 ! say_whtvr
 . whatevs
@@ -47,6 +48,6 @@ e
 
 ! exit
 . Goodbye
-
+?
 
 end

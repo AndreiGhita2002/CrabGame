@@ -192,6 +192,9 @@ public class Main extends Application {
             case STATE_CHANGE:
                 entity.processEffect(effect);
                 break;
+            case DIALOGUE:
+
+                break;
         }
     }
 
