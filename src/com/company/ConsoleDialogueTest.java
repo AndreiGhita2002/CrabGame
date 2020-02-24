@@ -26,6 +26,8 @@ public class ConsoleDialogueTest extends Application {
             line  = scanner.nextLine();
             words = line.split(" ");
 
+            System.out.print(dungeon.getCurrentRoom().name + ":  ");
+
             switch (words[0]) {
                 case "dia":
                     if (dungeon.getCurrentRoom().hasDialogue(words[1])) {

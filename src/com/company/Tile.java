@@ -5,12 +5,13 @@ class Tile {
 
     Boolean solid;
 
-    Effect stepOnEffect;
+    Effect effect;
+    boolean doEffectOnStep = false;
 
     Tile(Integer id, Boolean solid, Effect effect) {
         this.id = id;
         this.solid = solid;
-        this.stepOnEffect = effect;
+        this.effect = effect;
     }
 
     Tile(Integer id, Boolean solid) {

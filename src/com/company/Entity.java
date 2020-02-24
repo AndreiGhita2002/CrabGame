@@ -3,12 +3,21 @@ package com.company;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+enum Facing {
+    DOWN,
+    LEFT,
+    RIGHT,
+    UP
+}
+
 /* Sprite Entity
  * is used for: Characters and interactive things
  */
 class Entity extends ImageView {
     Integer X;
     Integer Y;
+    Facing facing;
+    String name;
 
     //this should be used
     Double collisionBoxHeight = 1.0;  // in Sizes of tiles
@@ -16,12 +25,12 @@ class Entity extends ImageView {
 
     Image spriteImage;
 
-    Effect interactEffect;
+    private Effect interactEffect;
 
     void refresh() {
         relocate(X, Y);
 
-        //TODO animation
+        // do moving animation
     }
 
     void processEffect(Effect effect) {
@@ -33,18 +42,19 @@ class Entity extends ImageView {
         return interactEffect;
     }
 
-    Entity(Image sprite) {
-        spriteImage = sprite;
-        interactEffect = new Effect(EffectType.NOTHING);
+    void doAnimation(String animationName) {
+        //TODO animation
     }
 
-    Entity(String imageUrl) {
+    Entity(String imageUrl, String name) {
         spriteImage = new Image(imageUrl);
         interactEffect = new Effect(EffectType.NOTHING);
+        facing = Facing.DOWN;
+        this.name = name;
     }
 
-    Entity(String imageURL, Integer X, Integer Y) {
-        this(imageURL);
+    Entity(String imageURL, String name, Integer X, Integer Y) {
+        this(imageURL, name);
         this.X = X;
         this.Y = Y;
     }

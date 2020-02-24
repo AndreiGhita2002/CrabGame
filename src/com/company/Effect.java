@@ -7,7 +7,8 @@ enum EffectType {
     STATE_CHANGE,
     DIALOGUE,
     PLAY_ANIMATION,
-    NOTHING,
+    PRINT_MESSAGE,
+    NOTHING
 }
 
 class Effect {

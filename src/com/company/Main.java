@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.*;
 
@@ -31,6 +32,8 @@ public class Main extends Application {
 
     private static SoundPlayer soundPlayer;
 
+    private static UIData UIData;
+
     private static boolean running, goNorth, goSouth, goEast, goWest;
     private static boolean canMove = true;
 
@@ -39,12 +42,17 @@ public class Main extends Application {
 
         dungeon = new Dungeon();
 
-        hero = new Entity("file:resources/textures/Base_Crab.png");
+        UIData = new UIData();
+
+        hero = new Entity("file:resources/textures/Base_Crab.png", "hero");
 
         soundPlayer = new SoundPlayer();
 
         topCornerXPx = W / 2 - (dungeon.getCurrentRoom().sizeX / 2 * tileWidth);
         topCornerYPx = H / 2 - (dungeon.getCurrentRoom().sizeY / 2 * tileHeight);
+
+        hero.collisionBoxWidth  = 1.0;
+        hero.collisionBoxHeight = 0.3;
 
         hero.X = dungeon.getCurrentRoom().startTileX * tileWidth  + topCornerXPx;
         hero.Y = dungeon.getCurrentRoom().startTileY * tileHeight + topCornerYPx;
@@ -62,7 +70,8 @@ public class Main extends Application {
         render(gc);
 
         // for testing:
-        dungeon.getCurrentRoom().entityList.add(new Entity("file:resources/textures/npc_02.png", getCoordsFromTileX(3), getCoordsFromTileY(4)));
+        Entity testEntity = new Entity("file:resources/textures/npc_02.png", "npc2", getCoordsFromTileX(3), getCoordsFromTileY(4));
+        dungeon.getCurrentRoom().entityList.add(testEntity);
 
         //Test soundPlayer
         //SoundPlayer.playSoundTest("abracadabra.wav");
@@ -90,11 +99,13 @@ public class Main extends Application {
                 case LEFT:  goWest  = false; break;
                 case RIGHT: goEast  = false; break;
                 case SHIFT: running = false; break;
+                case E: doInteract(); break;
                 case S: soundPlayer.playSound("abracadabra.wav"); break;
                 case F: soundPlayer.playSound("lol_does_not_exist.wav"); break;
                 case M: soundPlayer.willPlay = !soundPlayer.willPlay; break; // enables/disables sound
                 case T: changeRoom("start", hero); break;   // for debug
                 case Y: changeRoom("room2", hero); break;   // changes the room
+                case ENTER: if (UIData.dialogueMode) UIData.nextLine(); break; // next line when dialogue is showed
             }
         });
 
@@ -107,6 +118,44 @@ public class Main extends Application {
             }
         };
         timer.start();
+    }
+
+    private static void doInteract() {
+
+        Integer targetTileX = getTileFromCoordsX(hero.X);
+        Integer targetTileY = getTileFromCoordsY(hero.Y);
+
+        switch (hero.facing) {
+            case UP:
+                targetTileY--;
+                break;
+            case DOWN:
+                targetTileY++;
+                break;
+            case LEFT:
+                targetTileX--;
+                break;
+            case RIGHT:
+                targetTileX++;
+                break;
+        }
+
+        System.out.println("hero interacted with: " + targetTileX + ", " + targetTileY);
+
+        // tile interaction
+        Tile tile = dungeon.getCurrentRoom().getTile(targetTileX, targetTileY);
+        if (!tile.doEffectOnStep) processEffect(hero, tile.effect);
+
+
+        // entity interaction
+//        for (Entity entity : dungeon.getCurrentRoom().entityList) {
+//            if (getTileFromCoordsX(entity.X).equals(targetTileX) && getTileFromCoordsY(entity.Y).equals(targetTileY)) {
+//
+//                System.out.println("hero interacted with entity " + entity.name + " at coords " + targetTileX + ", " + targetTileY);
+//
+//                processEffect(hero, entity.interact());
+//            }
+//        }
     }
 
     private static void changeRoom(String newRoomName, Entity entity) {
@@ -167,10 +216,9 @@ public class Main extends Application {
     private static void groundEffectPass(Entity entity) {
         Integer entityTileX = getTileFromCoordsX(hero.X);
         Integer entityTileY = getTileFromCoordsY(hero.Y);
+        Tile tile = dungeon.getCurrentRoom().getTile(entityTileX, entityTileY);
 
-        Effect groundEffect = dungeon.getCurrentRoom().getTileEffect(entityTileX, entityTileY);
-
-        processEffect(entity, groundEffect);
+        if (tile.doEffectOnStep) processEffect(entity, tile.effect);
     }
 
     private static void processEffect(Entity entity, Effect effect) {
@@ -193,7 +241,14 @@ public class Main extends Application {
                 entity.processEffect(effect);
                 break;
             case DIALOGUE:
-
+                UIData.initDialogue(dungeon.getCurrentRoom().getDialogue(effect.effectText));
+                canMove = false;
+                break;
+            case PLAY_ANIMATION:
+                entity.doAnimation(effect.effectText);
+                break;
+            case PRINT_MESSAGE:
+                System.out.println(effect.effectText);
                 break;
         }
     }
@@ -261,9 +316,21 @@ public class Main extends Application {
     private static void drawUI(GraphicsContext g) {
         g.setFill(Color.LIGHTGRAY);
 
+        // Printing the coordinates of the tile that Crab is on in the top left corner:
         String coordText = "Tile Coords: " + getTileFromCoordsX(hero.X) + ", " + getTileFromCoordsY(hero.Y);
-
         g.fillText(coordText, 10, 10);
+
+        if (UIData.dialogueMode) {
+            //drawing the dialogue box
+            g.setFill(new Color(0.0, 0.0, 0.0, 0.6));
+            g.setStroke(Color.DARKCYAN);
+            g.fillRect(150, 700, 700, 200);
+
+            //drawing the text
+            g.setFill(Color.LIGHTGRAY);
+//            g.setFont( );
+            g.fillText(UIData.currentLine(), 170, 720);
+        }
     }
 
     private static void resetCamera() {

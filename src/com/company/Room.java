@@ -150,24 +150,30 @@ class Room {
     }
 
     void setTileEffect(Integer X, Integer Y, Effect effect) {
-        getTile(X, Y).stepOnEffect = effect;
-
-        //for debug:
-//        getTile(X, Y).id = 5;
+        getTile(X, Y).effect = effect;
     }
 
     void setTileEffect(String string) {
 //        System.out.println("room " + name + " has called setTileEffect() with the arg: " + string);
-        // string example: roomChange-1-1-room2-6-3
+        // string example: step-ROOM_COORD_CHANGE-6-6-start-8-3
 
         String[] words = string.split("-");
+        Integer coordX = Integer.parseInt(words[2]);
+        Integer coordY = Integer.parseInt(words[3]);
 
-        switch (words[0]) {
+        if (words[0].equals("step")) getTile(coordX, coordY).doEffectOnStep = true;
+
+        switch (words[1]) {
             case "ROOM_COORD_CHANGE":
-                Integer coordX = Integer.parseInt(words[1]);
-                Integer coordY = Integer.parseInt(words[2]);
-                Effect effect  = new Effect(EffectType.ROOM_COORD_CHANGE, words[3] + " " + words[4] + " " + words[5]);
+                Effect effect  = new Effect(EffectType.ROOM_COORD_CHANGE, words[4] + " " + words[5] + " " + words[6]);
                 setTileEffect(coordX, coordY, effect);
+                break;
+            case "PRINT_MESSAGE":
+                String message = words[4].replace('_', ' ');
+                setTileEffect(coordX, coordY, new Effect(EffectType.PRINT_MESSAGE, message));
+                break;
+            case "DIALOGUE":
+                setTileEffect(coordX, coordY, new Effect(EffectType.DIALOGUE, words[4]));
                 break;
             default:
                 System.out.println("something wrong in Room.setTileEffect()");
@@ -189,7 +195,7 @@ class Room {
     }
 
     Effect getTileEffect(Integer x, Integer y) {
-        return getTile(x, y).stepOnEffect;
+        return getTile(x, y).effect;
 
     }
 

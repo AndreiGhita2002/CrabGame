@@ -6,7 +6,11 @@
 & start room2
 
 # special tiles
-* start ROOM_COORD_CHANGE-1-1-room2-6-3
-* room2 ROOM_COORD_CHANGE-6-6-start-8-3
+* start step-ROOM_COORD_CHANGE-1-1-room2-6-3
+* start step-PRINT_MESSAGE-5-2-hello_world!
+* start interact-PRINT_MESSAGE-6-4-you_clicked_on_me!
+* room2 step-ROOM_COORD_CHANGE-6-6-start-8-3
+* room2 interact-DIALOGUE-8-4-Hello_there
+
 
 end
