@@ -2,10 +2,40 @@ package com.company;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import java.util.HashMap;
+import java.io.File;
+import java.util.Scanner;
 
 class SoundPlayer {
 
     Boolean willPlay = false; // enable/disable sound
+
+    //Doesn't work yet
+
+    public static void getTileIDSounds() {
+        try {
+            File tileSoundFile = new File("tilesound.txt");
+            Scanner sc = new Scanner(tileSoundFile);
+
+            System.out.println(sc.nextLine());
+
+            //HashMap<String, Integer> TileSoundIDs = new HashMap<String, Integer> ();
+
+            //while (sc.hasNextLine()) {
+            //    System.out.println(sc.nextLine());
+            //}
+
+            /*while (sc.hasNextLine()) {
+                TileSoundIDs.put(sc.nextLine(), sc.nextInt());
+                System.out.println("Added to TileSoundIDs HashMap: " + sc.nextLine());
+            }*/
+
+            //System.out.println(TileSoundIDs);
+
+        } catch(Exception IOException) {
+            System.out.println("Error: Failed to import tile sound IDs");
+        }
+    }
 
     //Play a sound
     void playSound(String soundName) {
@@ -33,9 +63,16 @@ class SoundPlayer {
     void walkOnSound(Integer tileID) {
         //TODO plays a sound that corresponds to that tile
         // ^ should import a from a text file what sound file to use for every tileID (or just the ones that make sound)
+        String soundNameTerrain = "default";
 
         if (willPlay) {
+            try {
 
+                playSound(soundNameTerrain);
+
+            } catch (Exception IOException) {
+                System.out.println("Error: Tile ID \"" + tileID + "\" not found");
+            }
 
             // should get the file name from the text file and then call playSound()
         }
@@ -47,6 +84,11 @@ class SoundPlayer {
         //TODO changes the background music track
 
         if (willPlay) {
+            try {
+
+            } catch (Exception IOException) {
+
+            }
 
         }
     }
