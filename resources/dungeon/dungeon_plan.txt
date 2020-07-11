@@ -10,7 +10,7 @@
 * start step-PRINT_MESSAGE-5-2-hello_world!
 * start interact-PRINT_MESSAGE-6-4-you_clicked_on_me!
 * room2 step-ROOM_COORD_CHANGE-6-6-start-8-3
-* room2 interact-DIALOGUE-8-4-Hello_there
+* room2 interact-DIALOGUE-9-4-Hello_there
 
 
 end

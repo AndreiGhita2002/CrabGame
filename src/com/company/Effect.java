@@ -7,6 +7,7 @@ enum EffectType {
     STATE_CHANGE,
     DIALOGUE,
     PLAY_ANIMATION,
+    PLAY_SOUND,
     PRINT_MESSAGE,
     NOTHING
 }
@@ -22,12 +23,14 @@ class Effect {
     // ROOM_COORD_CHANGE = does the above two at the same time
     //                   - effectText should be the name of the destination room and then the coordinates separated by space
     // STATE_CHANGE      = state change effect
-    //                   - nothing to change atm
-    //                   - this is the most complex effect type
+    //                   - the effect text is the tag then the value separated by space
     // DIALOGUE          = opens a dialog window and starts the dialog process
     //                   - effectText is the dialog name
     // PLAY_ANIMATION    = plays an animation
     //                   - the effectText is the animation name
+    // PLAY_SOUND        = plays a sound
+    //                   - the effectText is the sound name
+    // PRINT_MESSAGE     = prints a message to the console (only for debug)
     // NOTHING           = does nothing
 
     String effectText;

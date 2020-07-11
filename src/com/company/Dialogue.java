@@ -7,38 +7,41 @@ import java.util.List;
 public class Dialogue {
 
     String name;
-    List<String> body;
+    List<DialogueLine> lines;
 
     void setBody(String bodyString) {
-        body = Arrays.asList(bodyString.split("\n"));
+        String[] fullText = bodyString.split("\n");
 
+        for (String line : fullText) {
+            String text = line.split(" ", 2)[1];
+
+            switch (line.charAt(0)) {
+                case '.':
+                    lines.add(new DialogueLine(DialogueLineType.STATEMENT, text));
+                    break;
+                case '-':
+                    lines.add(new DialogueLine(DialogueLineType.EFFECT, text));
+                    break;
+                case '?':
+                    lines.add(new DialogueLine(DialogueLineType.QUESTION, text));
+                    break;
+                case '>':
+                    lines.add(new DialogueLine(DialogueLineType.CHOICE, text));
+                    break;
+            }
+        }
     }
 
-    public String toString() {
-        StringBuilder out = new StringBuilder();
-        for (String line : body) {
-            out.append(line);
-        }
-        return out.toString();
+    boolean isType(int lineNumber, DialogueLineType type) {
+        return getLine(lineNumber).type.equals(type);
     }
 
-    boolean isType(int lineNumber, char type) {
-        if (getLine(lineNumber).length() >= 1) {
-            return getLine(lineNumber).charAt(0) == type;
-        }
-        return false;
-    }
-
-    String getLine(int lineNumber) {
-        if (lineNumber >= body.size() || lineNumber < 0) {
-            return "";
-        }
-        return body.get(lineNumber);
-
+    DialogueLine getLine(int lineNumber) {
+        return lines.get(lineNumber);
     }
 
     Dialogue(String name) {
-        body = new ArrayList<>();
+        lines = new ArrayList<>();
         this.name = name;
     }
 }

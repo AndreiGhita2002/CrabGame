@@ -33,21 +33,20 @@ e
 ! Good_response
 - PLAY_ANIMATION receiver happy
 . Great!
-?
+
 
 ! say_whtvr
 . whatevs
 
 ! Bad_mood
 - PLAY_ANIMATION receiver sad
-. im sorry dude
 - PLAY_ANIMATION sender sad
-?
+? im sorry dude
 > say_whtvr whatever
 > exit bye
 
 ! exit
 . Goodbye
-?
+
 
 end

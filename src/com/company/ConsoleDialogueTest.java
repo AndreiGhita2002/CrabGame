@@ -67,20 +67,20 @@ public class ConsoleDialogueTest extends Application {
         Dialogue dialogue = dungeon.getCurrentRoom().getDialogue(dialogueName);
         int currentLine = 0;
 
-        while (currentLine < dialogue.body.size()) {
+        while (currentLine < dialogue.lines.size()) {
             System.out.print(dialogue.getLine(currentLine));
 
-            if (dialogue.isType(currentLine, '?')) {
+            if (dialogue.isType(currentLine, DialogueLineType.QUESTION)) {
                 System.out.println();
 
                 ArrayList<String> targetedDialogues = new ArrayList<>();
 
                 currentLine++;
 
-                while (currentLine < dialogue.body.size()) {
+                while (currentLine < dialogue.lines.size()) {
                     System.out.print(dialogue.getLine(currentLine));
 
-                    targetedDialogues.add(dialogue.getLine(currentLine).split(" ")[1]);
+                    targetedDialogues.add(dialogue.getLine(currentLine).text);
 
                     currentLine++;
                     scanner.nextLine();

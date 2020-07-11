@@ -14,7 +14,7 @@ public class UIData {
         System.out.println("dialogue initialized with dialogue " + dialogue.name);
     }
 
-    String nextLine() {
+    DialogueLine nextLine() {
         if (!dialogueMode) {
             System.out.println("something called UI.nextLine() without doing initDialogue() first ");
             return null;
@@ -23,7 +23,7 @@ public class UIData {
         return currentDialogue.getLine(nextLine);
     }
 
-    String currentLine() {
+    DialogueLine currentLine() {
         return currentDialogue.getLine(nextLine);
     }
 
